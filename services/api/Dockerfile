@@ -11,13 +11,16 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # 3. Dependencies
 # We copy this first so Docker can cache the installed modules if package.json hasn't changed.
-COPY package.json tsconfig.json ./
+COPY package.json tsconfig.json tsconfig.build.json ./
 
 # (install libraries)
 RUN pnpm install --no-frozen-lockfile
 
 # 4. The Code
 COPY src ./src
+COPY public ./public
+COPY data ./data
+COPY index.html vite.config.ts ./
 
 # (Compile TypeScript to JavaScript)
 RUN pnpm build
@@ -28,11 +31,17 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Copy only the built JS files
+# Copy only the built backend files
 COPY --from=builder /app/dist ./dist
+
+# Copy the BUILT frontend assets to /app/public (where server.ts expects them)
+# Vite output is in /app/dist/public, we move it to /app/public
+COPY --from=builder /app/dist/public ./public
+
 # Copy node_modules needed for production
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/data ./data
 
 EXPOSE 3000
 

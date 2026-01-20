@@ -29,15 +29,24 @@ setup-k3d:
 	@echo "⏳ Waiting for cluster to be ready..."
 	kubectl wait --for=condition=Ready nodes --all --timeout=60s
 
+# --- Build & Run ---
+
 build-api:
 	@echo "🐳 Building api-service..."
 	# Build the docker image locally using the recipe in specific Dockerfile
 	docker build -t api-service:local services/api
 
-import-images: build-api
+build-brain:
+	@echo "🧠 Building brain-service..."
+	docker build -t brain-service:local apps/brain
+
+# Build everything
+build: build-api build-brain
+
+import-images: build
 	@echo "📦 Importing images into k3d..."
 	# Transfer the image from your Mac's Docker to inside the k3d cluster's Docker
-	k3d image import api-service:local -c $(CLUSTER_NAME)
+	k3d image import api-service:local brain-service:local -c $(CLUSTER_NAME)
 
 deploy:
 	@echo "☸️  Deploying manifests..."
@@ -50,11 +59,13 @@ up: setup-k3d import-images deploy
 
 # --- Dev Helpers ---
 
-reload: build-api import-images
-	@echo "🔄 Restarting API pods to pick up new image..."
+reload: import-images
+	@echo "🔄 Restarting pods..."
 	kubectl rollout restart deployment/api-service
+	kubectl rollout restart deployment/brain-service
 	@echo "⏳ Waiting for rollout..."
 	kubectl rollout status deployment/api-service
+	kubectl rollout status deployment/brain-service
 	@echo "✅ Reloaded!"
 
 down:
