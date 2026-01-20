@@ -1,0 +1,15 @@
+{
+  "name": "asos-lab",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "services/*",
+    "apps/*",
+    "scripts/*"
+  ],
+  "scripts": {
+    "dev:api": "pnpm --filter @asos/api dev",
+    "build:api": "pnpm --filter @asos/api build",
+    "start:api": "pnpm --filter @asos/api start"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "admin": {
+    "pass": "admin",
+    "role": "admin"
+  },
+  "user": {
+    "pass": "user",
+    "role": "user"
+  },
+  "user_1": {
+    "pass": "1234",
+    "role": "user"
+  },
+  "jack": {
+    "pass": "1234",
+    "role": "admin"
+  }
+}

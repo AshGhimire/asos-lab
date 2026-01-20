@@ -1,0 +1,74 @@
+[
+    {
+        "comment": "Schemas (Typed Contracts Incident (API Contract)",
+        "id": "uuid",
+        "type": "SERVICE_DEGRADATION | AUTH_ABUSE",
+        "status": "OPEN | MITIGATED | RESOLVED | FAILED",
+        "service": "api-service",
+        "started_at": "timestamp",
+        "summary": "string",
+        "severity": 1,
+        "evidence": [
+            "... evidence ids or embedded evidence ..."
+        ]
+    },
+    {
+        "comment": "Evidence Snapshot",
+        "id": "uuid",
+        "incident_id": "uuid",
+        "ts": "timestamp",
+        "kind": "METRIC | LOG | TRACE | STATE",
+        "source": "promql: ... or log source",
+        "payload": {
+            "query": "promql here",
+            "result": {
+                "value": 123,
+                "series": []
+            }
+        }
+    },
+    {
+        "typed_actions": [
+            {
+                "type": "RestartDeployment",
+                "namespace": "default",
+                "deployment": "api-service"
+            },
+            {
+                "type": "ScaleDeployment",
+                "namespace": "default",
+                "deployment": "api-service",
+                "replicas_delta": 1
+            },
+            {
+                "type": "BlockIP",
+                "ip": "1.2.3.4",
+                "ttl_seconds": 60,
+                "reason": "credential stuffing"
+            }
+        ]
+    },
+    {
+        "AI Investigation Output (Structured only)": {
+            "incident_id": "uuid",
+            "hypotheses": [
+                {
+                    "title": "Bad config caused crashloop",
+                    "confidence": 0.86,
+                    "evidence_refs": [
+                        "e1",
+                        "e2"
+                    ]
+                }
+            ],
+            "plan": [
+                {
+                    "type": "RestartDeployment",
+                    "namespace": "default",
+                    "deployment": "api-service"
+                }
+            ],
+            "rationale": "Evidence-cited explanation with references"
+        }
+    }
+]

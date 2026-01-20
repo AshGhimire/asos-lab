@@ -1,0 +1,26 @@
+Security & Safety (MVP-Realistic)
+
+Internal endpoints protected by API key (local dev)
+
+No arbitrary command execution
+
+Every action has bounded blast radius (TTL, +1 replica)
+
+Approval required by default
+
+Evidence-first: actions must cite evidence and meet thresholds
+
+
+==============================================
+
+Post-MVP Upgrades (Only After MVP Works)
+
+Replace denylist middleware with Envoy/nginx rate limit or NetworkPolicy
+
+Add trace correlation for root cause
+
+Add pgvector retrieval of prior incidents + runbooks
+
+Add third scenario: rollback bad deploy
+
+Add richer policy engine (OPA/Rego) once the basics are proven

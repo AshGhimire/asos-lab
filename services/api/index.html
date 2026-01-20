@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber-Artifact Live Auction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- React Auth Root -->
+    <div id="auth-root"></div>
+
+    <!-- Main App (Hidden by default, revealed by React) -->
+    <div class="container hidden" id="app-container">
+        <h1>Artifact #8821</h1>
+
+        <!-- TABS -->
+        <div class="tab-bar">
+            <div id="tab-user" class="tab active" onclick="switchTab('user')">PUBLIC AUCTION</div>
+            <div id="tab-admin" class="tab hidden" onclick="switchTab('admin')">ADMIN PANEL</div>
+        </div>
+
+        <!-- PUBLIC VIEW -->
+        <div id="view-user">
+            <div class="status">CURRENT HIGHEST BID</div>
+            <div class="price-box" id="price">ETH <span id="amount">---</span></div>
+            <div class="status">Held by: <span id="holder">---</span></div>
+
+            <div class="controls">
+                <div class="controls-row">
+                    <button style="flex: 1;" onclick="placeBid(50)">BID +50</button>
+                    <button style="flex: 1;" onclick="placeBid(100)">BID +100</button>
+                </div>
+                <div class="controls-row">
+                    <input type="number" id="custom-bid" placeholder="Amount" class="custom-bid-input">
+                    <button style="flex: 1;" onclick="placeCustomBid()">BID CUSTOM</button>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="status history-header">LATEST BIDS</div>
+                <ul id="history-list" class="history-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+
+            <div class="log" id="log">
+                <div>System initialized... waiting for stream...</div>
+            </div>
+        </div>
+
+        <!-- ADMIN VIEW -->
+        <div id="view-admin" class="hidden">
+            <div class="status" style="color: #ef4444;">⚠ ADMINISTRATOR ACCESS ⚠</div>
+            <div class="controls">
+                <button class="danger" onclick="simulateCrash()">INITIATE CRASH PROTOCOL</button>
+                <div class="log" style="height: 50px; color: #ef4444;">
+                    WARNING: This action is irreversible.
+                </div>
+            </div>
+        </div>
+
+        <!-- Vite Entry Point -->
+        <script type="module" src="/src/client.tsx"></script>
+</body>
+
+</html>
